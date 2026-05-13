@@ -11,13 +11,13 @@ const __dirname = path.dirname(__filename);
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: './',
+    base: '/pdfeditor/',
     plugins: [
       react(),
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg', 'pwa-192x192.png', 'pwa-512x512.png'],
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
         manifest: {
           name: 'PDF Editor Tool',
           short_name: 'PDFEditor',
@@ -26,8 +26,8 @@ export default defineConfig(({ mode }) => {
           background_color: '#ffffff',
           display: 'standalone',
           orientation: 'any',
-          start_url: './',
-          scope: './',
+          start_url: '/pdfeditor/',
+          scope: '/pdfeditor/',
           icons: [
             {
               src: 'pwa-192x192.png',
@@ -54,6 +54,14 @@ export default defineConfig(({ mode }) => {
               purpose: 'maskable'
             }
           ]
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+          navigateFallback: '/pdfeditor/index.html',
+          navigateFallbackDenylist: [/^\/pdfeditor\/sw.js$/],
+        },
+        devOptions: {
+          enabled: true
         }
       })
     ],

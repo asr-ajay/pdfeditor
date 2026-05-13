@@ -104,13 +104,14 @@ export type FitMode = 'width' | 'page' | 'none';
 export interface PageData {
   id: string;
   originalIndex: number;
-  previewUrl: string;
+  previewUrl?: string;
   width?: number;
   height?: number;
   rotation: number;
   annotations: Annotation[];
   textContent?: string;
   textItems?: any[];
+  isDeepParsed?: boolean;
 }
 
 export interface Bookmark {
@@ -142,15 +143,15 @@ interface PDFContextType {
   zoom: number;
   setZoom: (zoom: number | ((prev: number) => number)) => void;
   rotation: number;
-  setRotation: (rotation: number) => void;
+  setRotation: (rotation: number | ((prev: number) => number)) => void;
   viewRotation: number;
-  setViewRotation: (rotation: number) => void;
+  setViewRotation: (rotation: number | ((prev: number) => number)) => void;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  setCurrentPage: (page: number | ((prev: number) => number)) => void;
   selectedPageIds: string[];
   setSelectedPageIds: (ids: string[] | ((prev: string[]) => string[])) => void;
   totalPages: number;
-  setTotalPages: (pages: number) => void;
+  setTotalPages: (pages: number | ((prev: number) => number)) => void;
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
   fitMode: FitMode;
@@ -174,12 +175,12 @@ interface PDFContextType {
   setActiveFileId: (id: string | null) => void;
   currentFile: PDFFile | null;
   hasImages: boolean;
-  setHasImages: (value: boolean) => void;
+  setHasImages: (value: boolean | ((prev: boolean) => boolean)) => void;
   // Data states
   pages: PageData[];
-  setPages: (pages: PageData[]) => void;
+  setPages: (pages: PageData[] | ((prev: PageData[]) => PageData[])) => void;
   bookmarks: Bookmark[];
-  setBookmarks: (bookmarks: Bookmark[]) => void;
+  setBookmarks: (bookmarks: Bookmark[] | ((prev: Bookmark[]) => Bookmark[])) => void;
   addBookmark: (bookmark: Bookmark) => void;
   removeBookmark: (id: string) => void;
   attachments: Attachment[];
